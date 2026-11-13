@@ -1,0 +1,11 @@
+# Результати збірки, тестів, покриття й роботи застосунку
+.vs/
+*.user
+coveragereport/
+bin/
+obj/
+TestResults/
+coverage/
+logs/
+
+data/board.json
