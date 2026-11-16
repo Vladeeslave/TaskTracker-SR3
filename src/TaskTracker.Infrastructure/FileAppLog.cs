@@ -45,7 +45,7 @@ public sealed class FileAppLog : IAppLog
 
     private void Write(string level, string scenario, string message)
     {
-        string line = $"{_clock.Now:O} {level} {scenario} {message}{Environment.NewLine}";
+        string line = $"{_clock.Now():O} {level} {scenario} {message}{Environment.NewLine}";
 
         // TODO(TD-03): немає ротації журналу; файл logs/app.log необмежено зростає.
         File.AppendAllText(_path, line);
