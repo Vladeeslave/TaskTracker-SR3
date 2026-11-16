@@ -14,7 +14,7 @@ internal sealed class MenuLoop
     private readonly TextReader _input;
     private readonly TextWriter _output;
     private readonly AppServices _services;
-    private readonly IReadOnlyDictionary<string, Action> _commands;
+    private readonly Dictionary<string, Action> _commands;
 
     /// <summary>Створює меню над заданими потоками вводу й виводу.</summary>
     /// <param name="input">Потік вводу.</param>
