@@ -1,0 +1,46 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      # Крок 1. Отримання коду і встановлення .NET 8
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      # Крок 2. Відновлення залежностей
+      - name: Restore
+        run: dotnet restore
+
+      # Крок 3. Будь-яке відхилення від .editorconfig зупиняє конвеєр
+      - name: Format check
+        run: dotnet format --verify-no-changes
+
+      # Крок 4. Жодного попередження аналізаторів
+      - name: Build
+        run: dotnet build -c Release --no-restore -warnaserror
+
+      # Крок 5. Жодного червоного тесту; збираємо покриття
+      - name: Test with coverage
+        run: dotnet test -c Release --no-build /p:CollectCoverage=true
+
+      # Крок 6. Поріг покриття бібліотеки логіки: нижче за 70 % конвеєр падає
+      - name: Coverage threshold
+        shell: pwsh
+        run: ./scripts/check-coverage.ps1 -Threshold 70
+
+      # Крок 7. Звіт про покриття як артефакт (зберігається й за червоних тестів)
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: tests/TaskTracker.Tests/coverage/coverage.cobertura.xml
