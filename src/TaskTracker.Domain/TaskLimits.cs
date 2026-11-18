@@ -4,7 +4,7 @@ namespace TaskTracker.Domain;
 public static class TaskLimits
 {
     /// <summary>Найбільша довжина назви завдання, символів.</summary>
-    public const int MaxTitleLength = 100;
+            public const int MaxTitleLength = 100;
 
     /// <summary>Найбільша оцінка завдання, годин.</summary>
     public const decimal MaxEstimateHours = 200m;
